@@ -123,6 +123,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Shut down the connection as we're done with it now.
+        deviceConnection.close();
+    }
+
     private void setupExoPlayer() {
         LoadControl loadControl = new DefaultLoadControl.Builder()
                 .setBufferDurationsMs(1000, 2000, 1000, 1000)
