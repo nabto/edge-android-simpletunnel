@@ -26,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     // FILL IN YOUR DEVICE SETTINGS HERE!!
     // You can get the info from the Nabto Cloud Console and then fill out these strings.
-    private String productId = "pr-xxxxxxxx";
-    private String deviceId = "de-xxxxxxxx";
+    private String productId = "pr-hfqekmt7";
+    private String deviceId = "de-ksuiaswu";
+    private String serverConnectToken = "demosct";
 
     // We will open a tunnel service to access an RTSP stream.
     private String tunnelService = "rtsp";
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             connectionOptions.put("ProductId", productId);
             connectionOptions.put("DeviceId", deviceId);
             connectionOptions.put("PrivateKey", clientPrivateKey);
-            connectionOptions.put("ServerConnectToken", "demosct");
+            connectionOptions.put("ServerConnectToken", serverConnectToken);
         } catch (JSONException e) {
             e.printStackTrace();
         }
