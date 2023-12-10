@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -14,6 +15,7 @@ import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.nabto.edge.client.Connection;
 import com.nabto.edge.client.ConnectionEventsCallback;
 import com.nabto.edge.client.NabtoClient;
+import com.nabto.edge.client.NabtoNoChannelsException;
 import com.nabto.edge.client.TcpTunnel;
 
 import org.json.JSONException;
@@ -26,10 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     // FILL IN YOUR DEVICE SETTINGS HERE!!
     // You can get the info from the Nabto Cloud Console and then fill out these strings.
-    private String productId = "pr-duiofj7v";
-    private String deviceId = "de-xecofwxb";
-    private String serverKey = "sk-66ebbf652219ecc44279b0d0573962f9";
-    private String serverConnectToken = "demosct";
+    private String productId = "pr-fatqcwj9";
+    private String deviceId = "de-443vpcpf";
+    private String serverConnectToken = "a4cAo4f3et33";
 
     // We will open a tunnel service to access an RTSP stream.
     private String tunnelService = "rtsp";
@@ -57,7 +58,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Let's first set up ExoPlayer to play a video, this is _NOT_ a part of Nabto!
         setupExoPlayer();
+        try {
+            tryConnect();
+        } catch (NabtoNoChannelsException e) {
+            Log.e("nabtosimpletunnel", "An error occurred when connecting, local error code: " +
+                    e.getLocalChannelErrorCode().getName() + ", remote error code " + e.getRemoteChannelErrorCode().getName(), e);
+        } catch (Exception e) {
+            Log.e("nabtosimpletunnel", "An error occurred before connecting", e);
+        }
+    }
 
+    private void tryConnect() {
         // Create a NabtoClient using our activity as context.
         // You should create one NabtoClient and keep it throughout the application's lifetime.
         nabtoClient = NabtoClient.create(this);
@@ -72,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             connectionOptions.put("ProductId", productId);
             connectionOptions.put("DeviceId", deviceId);
-            connectionOptions.put("ServerKey", serverKey);
             connectionOptions.put("PrivateKey", clientPrivateKey);
             connectionOptions.put("ServerConnectToken", serverConnectToken);
         } catch (JSONException e) {
@@ -128,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
         // Shut down the connection as we're done with it now.
+        try {
+            deviceConnection.connectionClose();
+        } catch (Exception e){
+            Log.e("nabtosimpletunnel", "Error closing connection", e);
+        }
         deviceConnection.close();
     }
 

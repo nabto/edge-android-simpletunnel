@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.nabto.edge.simpletunneldemo"
         minSdk 24
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -33,10 +33,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Nabto dependencies
-    implementation "com.nabto.edge.client:library:2.3.0"
-    implementation "com.nabto.edge.client:library-ktx:2.3.0"
-    implementation "com.nabto.edge.client:iam-util:2.3.0"
-    implementation "com.nabto.edge.client:iam-util-ktx:2.3.0"
+    implementation "com.nabto.edge.client:library:3.0.0"
+    implementation "com.nabto.edge.client:library-ktx:3.0.0"
+    implementation "com.nabto.edge.client:iam-util:3.0.0"
+    implementation "com.nabto.edge.client:iam-util-ktx:3.0.0"
 
     // Exoplayer
     implementation "com.google.android.exoplayer:exoplayer:2.18.1"
