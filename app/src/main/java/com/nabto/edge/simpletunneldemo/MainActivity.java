@@ -1,16 +1,19 @@
 package com.nabto.edge.simpletunneldemo;
 
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import android.os.Bundle;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.source.rtsp.RtspMediaSource;
-import com.google.android.exoplayer2.ui.StyledPlayerView;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.exoplayer.DefaultLoadControl;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.LoadControl;
+import androidx.media3.exoplayer.rtsp.RtspMediaSource;
+import androidx.media3.ui.PlayerView;
+
 import com.nabto.edge.client.Connection;
 import com.nabto.edge.client.ConnectionEventsCallback;
 import com.nabto.edge.client.NabtoClient;
@@ -92,11 +95,11 @@ public class MainActivity extends AppCompatActivity {
         deviceConnection.connect();
     }
 
-    @Override
+    @OptIn(markerClass = UnstableApi.class) @Override
     protected void onStart() {
         super.onStart();
 
-        StyledPlayerView videoPlayerView = findViewById(R.id.video_player);
+        PlayerView videoPlayerView = findViewById(R.id.video_player);
         videoPlayerView.setPlayer(exoPlayer);
         videoPlayerView.setUseController(false);
 
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         deviceConnection.close();
     }
 
-    private void setupExoPlayer() {
+    @OptIn(markerClass = UnstableApi.class) private void setupExoPlayer() {
         LoadControl loadControl = new DefaultLoadControl.Builder()
                 .setBufferDurationsMs(1000, 2000, 1000, 1000)
                 .build();
